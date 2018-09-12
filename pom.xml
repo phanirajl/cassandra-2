@@ -7,6 +7,19 @@
 	<packaging>war</packaging>
 	<name>demo_springmvc Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
+	<dependencies>
+		<dependency>
+		    <groupId>com.datastax.cassandra</groupId>
+		    <artifactId>cassandra-driver-core</artifactId>
+		    <version>3.5.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.datastax.cassandra</groupId>
+		    <artifactId>cassandra-driver-extras</artifactId>
+		    <version>3.5.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<finalName>demo_springmvc</finalName>
