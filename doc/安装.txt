@@ -1,0 +1,57 @@
+下载包
+	如果使用 Linux，您可以找到一个适合您的安装的特定包，但在大部分情况下，都将从最新可用版本（截至编写本文时为 V3.11）下载一个压缩的 tar.gz 文件。
+	完成下载后，使用 TAR 实用工具（或类似工具）解压该包：
+	$ tar -xvf apache-cassandra-3.11.0-bin.tar.gz
+
+	bin：可执行脚本存放位置，存放客户端工具、服务启动脚本、服务工具等。
+	conf：  服务器配置文件路径，所有配置文件都存放于此。
+	interface：这里存放客户端到服务器端thrift RPC的接口配置文件，一般我们用不到。
+	lib：存放cassandra核心jar和所有依赖jars。
+	logs：日志文件存放路径。
+	pylib：python脚本库。
+	tools：一些工具，多半用python写的。
+	我们关注点主要在bin、conf和logs三个目录。
+
+配置（三台服务器：server104, server105, server106）
+	修改的配置文件主要是三个：cassandra.yaml，cassandra-env.sh，jvm.properties。
+	（1）cassandra.yaml
+	这个配置文件最为重要，使用yaml格式配置。下面主要讲几个非常重要的配置，最好将这几个配置项都配上。
+	cluster_name：此参数标识了包含 3 个节点的 Cassandra 集群的名称。一定要注意，所有节点配置都有相同的名称。
+	seeds：种子节点，为了使集群中的各节点在启动时能发现其他节点，需要指定种子节点（seeds），各节点都先和种子节点通信，通过种子节点获取其他节点列
+	表，然后和其他节点通信。种子节点可以指定多个，用逗号分割开，server104, server105, server106。
+	storage_port：可以使用默认的配置，7000，这个端口用于接收命令和数据。
+	listen_address：客户端和其他节点连接到此节点所用的节点主机名server104，是设置网络上的机器所使用的真实主机名。
+	native_transport_port：这个端口用于Client到Cassandra服务的通信。注意配置防火墙。
+	要为此实例设置基本的身份验证和授权配置，需要更改以下这些可选的附加参数：
+	authenticator— 启用用户的身份验证。您需要更改此参数，以便要求用户在连接到集群时提供用户名和密码。
+	authenticator: PasswordAuthenticator
+	authorizer— 启用用户的授权并限制他的权限。如果更改此参数，则需要增加 system_auth 键空间复制系数，以便在其他节点中创建授权数据的其他副本，防
+	止节点不可用。
+	authorizer: CassandraRoleManager
+
+	（2）cassandra-env.sh
+	MAX_HEAP_SIZE="4G"
+	HEAP_NEWSIZE="800M"
+	字面意思很好理解，最大Heap内存，HEAP_NEWSIZE是新生代内存区大小。两个必须同时配置。
+
+	（3）jvm.properties
+	这个配置文件我没有做更改，全使用默认的JVM配置选项。
+
+手动启动第一个节点
+	现在已经设置了所有配置，您可以运行位于 bin 目录内的 Cassandra 脚本，如下所示。-f 选项将所有引导日志都输出到前台。在首次启动时，可以使用该选项
+	来检查 Cassandra 启动期间的错误。
+	$ nohup ./cassandra -R
+	如果在初始化几秒后看到以下日志信息，则表明 Cassandra 节点在正常运行并准备好接收客户端连接。
+	INFO  [main] 2017-08-20 18:04:58,329 Server.java:156 - Starting listening for CQL
+    	clients on localhost/127.0.0.1:9042 (unencrypted)...
+	要仔细检查节点状态，可以使用 bin 目录中的 nodetool 实用工具。该工具可以为您提供有关 Cassandra 集群和节点的信息。要检查集群状态，只需发出以下
+	命令：
+	$ nodetool status
+	以下命令将会输出关于集群的信息，包括运行该集群的数据中心名称（在本例中为默认配置）和集群的每个节点成员的状态：
+	Datacenter: datacenter1
+	=======================
+	Status=Up/Down
+	|/ State=Normal/Leaving/Joining/Moving
+	--  Address Load    Tokens      Owns (effective)  Host ID                               Rack
+	UN  127.0.0.1  103.67 KiB  256          100.0%          6aae6c1f-cf06-4874-9507-a43025c312d1  rack1
+	IP 地址前面的 UN 字母表示节点在正常 (N) 运行 (U)。首次启动后，将会分别创建 data 和 logs 目录来存储所有键空间/表数据和日志。
