@@ -1,0 +1,15 @@
+集群名称不匹配问题
+	添加一个新的节点到现有集群中会出现问题
+	org.apache.cassandra.exceptions.ConfigurationException: Saved cluster name Test Cluster != configured name 新名称
+	原因是新节点的cassandra.yaml中的集群名称与系统中的名称不一致。
+	解决方法：
+		修改配置文件为系统中保存的名称
+		修改系统中的名称
+		修改集群名称步骤
+		更新集群名称字段
+	cqlsh> UPDATE system.local SET cluster_name = '新集群名称' where key='local';
+	修改Cassandra.yaml中的cluster_name为新集群名称
+	将memtable刷为commitlog
+	shell> nodetool flush system
+	验证集群名称
+	cqlsh> select cluster_name from system.local;
