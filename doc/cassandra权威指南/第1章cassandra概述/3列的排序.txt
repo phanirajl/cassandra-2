@@ -1,0 +1,14 @@
+列通过列族中定义的Compare With类型类排序：
+	1、AsciiType直接通过比较字节进行排序，每个输入都需要验证是否符合us-ascii编码。us-ascii是按照英文字母表的顺序进行编码的。ascii定义了128
+	个字符，其中94个是可打印的
+	2、ByteType是默认的排序方法，直接比较字节，不检查字节的内容是否符合某种编码。以ByteType作为默认排序方法的一个原因是，对于大部分类型（包括
+	utf-8和ascii）来说，按照字节排序都是正确的
+	3、LexicalUUIDType一个16字节的全局唯一标识uuid，进行字节的排序
+	4、LongType按照8字节的长整型数值进行排序
+	5、IntegerType比长整型更快，允许使用比LongType的64位更多或更少的位数
+	6、TimeUUIDType使用6字节时间戳进行排序。有五个通用的时间戳uuid生成方法。Cassandra使用的是第一种，这是一种用计算机的mac地址和从公历纪年
+	开始的以100纳秒为单位的时间值生成的编号
+	7、UTF8Type以utf-8字符编码的字符串。看起来很适合作为默认的排序方式，因为这会让使用xml和其它需要公共编码格式的数据交换方式的程序员感到很舒
+	服，但在Cassandra中，除非你需要验证数据，否则不要使用UTF8Type
+	8、Custom：如果愿意，你可以创建自己的排序算法。和Cassandra中的很多东西一样，这也是方便的，你需要做的就是扩展org.apach.cassandra.db.
+	marshal.AbstractType，并指定自己的类名。
