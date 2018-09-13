@@ -1,0 +1,4 @@
+您可以使用命令CREATE INDEX在Cassandra中创建索引。其语法如下：
+	CREATE INDEX <identifier> ON <tablename>
+	下面给出一个创建列的索引的例子。这里，我们在名为emp的表中为列“emp_name”创建索引。
+	cqlsh:tutorialspoint> CREATE INDEX name ON emp1 (emp_name);

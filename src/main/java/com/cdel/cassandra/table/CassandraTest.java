@@ -36,6 +36,31 @@ public class CassandraTest {
 		CassandraClient cassandraClient = new CassandraClient("test");
 
 		String query = "DROP TABLE emp1;";
+		//String query = "Truncate student;";
+		cassandraClient.executeSQL(query);
+
+		// 关闭
+		cassandraClient.close();
+
+	}
+
+	public static void createIndex(){
+		// 创建客户端
+		CassandraClient cassandraClient = new CassandraClient("test");
+
+		String query = "CREATE INDEX name ON emp (emp_name);";
+		cassandraClient.executeSQL(query);
+
+		// 关闭
+		cassandraClient.close();
+
+	}
+
+	public static void dropIndex(){
+		// 创建客户端
+		CassandraClient cassandraClient = new CassandraClient("test");
+
+		String query = "DROP INDEX name;";
 		cassandraClient.executeSQL(query);
 
 		// 关闭
@@ -44,7 +69,7 @@ public class CassandraTest {
 	}
 
 	public static void main(String[] args) {
-		update();
+		dropIndex();
     }
 
 }
