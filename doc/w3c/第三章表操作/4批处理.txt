@@ -1,0 +1,17 @@
+使用Cqlsh执行批处理语句
+	使用BATCH，您可以同时执行多个修改语句（插入，更新，删除）。其语法如下：
+	BEGIN BATCH
+	<insert-stmt>/ <update-stmt>/ <delete-stmt>
+	APPLY BATCH
+
+	示例：
+	插入包含以下详细信息的新行（4，rajeev，pune，9848022331，30000）。
+	将行号为3的员工的工资更新为50000。
+	删除行ID为2的员工的城市。
+	要一次性执行上述操作，请使用以下BATCH命令：
+
+	cqlsh:tutorialspoint> BEGIN BATCH
+	... INSERT INTO emp (emp_id, emp_city, emp_name, emp_phone, emp_sal) values(  4,'Pune','rajeev',9848022331, 30000);
+	... UPDATE emp SET emp_sal = 50000 WHERE emp_id =3;
+	... DELETE emp_city FROM emp WHERE emp_id = 2;
+	... APPLY BATCH;
