@@ -1,0 +1,25 @@
+您可以使用命令ALTER TABLE更改表。下面给出了修改表的语法。
+	句法
+	ALTER (TABLE | COLUMNFAMILY) <tablename> <instruction>
+	使用ALTER命令，可以执行以下操作：
+	添加列
+	删除列
+
+添加列
+	使用ALTER命令，可以向表中添加列。在添加列时，必须注意，列名称不会与现有列名称冲突，并且表未使用紧凑存储选项定义。下面给出了向表中添加列的语法。
+	ALTER TABLE table name
+	ADD  new column datatype;
+
+示例
+	下面给出了向现有表中添加列的示例。这里我们在名为emp的表中添加一个名为emp_email的文本数据类型的列。
+	cqlsh:tutorialspoint> ALTER TABLE emp
+	   ... ADD emp_email text;
+
+删除列
+	使用ALTER命令，可以从表中删除列。在从表中删除列之前，请检查该表是否未使用紧凑存储选项进行定义。下面给出了使用ALTER命令从表中删除列的语法。
+	ALTER table name
+	DROP column name;
+
+示例
+	下面给出了从表中删除列的示例。这里我们删除名为emp_email的列。
+	cqlsh:tutorialspoint> ALTER TABLE emp DROP emp_email;

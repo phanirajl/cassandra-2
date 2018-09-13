@@ -6,7 +6,7 @@
 	CREATE KEYSPACE “KeySpace Name”
 	WITH replication = {'class': ‘Strategy name’, 'replication_factor' : ‘No.Of  replicas’}
 	AND durable_writes = ‘Boolean value’;
-	
+
 CREATE KEYSPACE语句有两个属性：replication和durable_writes。
 
 复制
@@ -15,24 +15,25 @@ CREATE KEYSPACE语句有两个属性：replication和durable_writes。
 	简单的策略			为集群指定简单的复制因子。
 	网络拓扑策略			使用此选项，可以单独为每个数据中心设置复制因子。
 	旧网络拓扑策略		使用此选项，可以单独为每个数据中心设置复制因子。
-	
+
 下面给出了创建KeySpace的示例。
 	这里我们创建一个名为TutorialsPoint 的KeySpace。
 	我们使用第一个副本放置策略，即简单策略。
 	我们选择复制因子为3个副本。
 	cqlsh.> CREATE KEYSPACE tutorialspoint
 	WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
-	
+
 	您可以使用命令Describe验证是否创建表。如果对键空间使用此命令，它将显示如下所示创建的所有键空间。
 	cqlsh> DESCRIBE keyspaces;
-	
+
 Durable_writes
 	默认情况下，表的durable_writes属性设置为true，但可以将其设置为false。您不能将此属性设置为simplex策略。
+	使用此选项，您可以指示Cassandra是否对当前KeySpace的更新使用commitlog。此选项不是强制性的，默认情况下，它设置为true。
 	示例
 	cqlsh> CREATE KEYSPACE test
 	... WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 3 }
 	... AND DURABLE_WRITES = false;
-	
+
 	验证
 	您可以通过查询系统键空间来验证test KeySpace的durable_writes属性是否设置为false。此查询提供了所有KeySpaces及其属性。
 	SELECT * FROM system_schema.keyspaces;
@@ -43,7 +44,7 @@ Durable_writes
 	 tutorialspoint |           True | org.apache.cassandra.locator.SimpleStrategy 			| {"replication_factor" : "4"}
 	         system |           True | org.apache.cassandra.locator.LocalStrategy 			| { }
 	  system_traces |           True | org.apache.cassandra.locator.SimpleStrategy 			| {"replication_factor" : "2"}
-	  
+
 使用Keyspace
 	您可以使用关键字USE使用创建的KeySpace。其语法如下：
 	Syntax:USE <identifier>

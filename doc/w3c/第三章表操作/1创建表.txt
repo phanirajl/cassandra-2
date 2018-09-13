@@ -1,0 +1,32 @@
+CREATE (TABLE | COLUMNFAMILY) <tablename>
+('<column-definition>' , '<column-definition>')
+(WITH <option> AND <option>)
+
+主键
+	主键是用于唯一标识行的列。因此，在创建表时，必须定义主键。主键由表的一个或多个列组成。您可以定义表的主键，如下所示。
+	CREATE TABLE tablename(
+	   column1 name datatype PRIMARYKEY,
+	   column2 name data type,
+	   column3 name data type.
+	   )
+	或者
+	CREATE TABLE tablename(
+	   column1 name datatype PRIMARYKEY,
+	   column2 name data type,
+	   column3 name data type,
+	   PRIMARY KEY (column1)
+	   )
+
+示例
+	下面给出一个使用cqlsh在Cassandra中创建表的示例。我们到了：
+	使用keyspace tutorialspoint
+	创建名为emp的表
+	它将有详细信息，如员工姓名，id，城市，工资和电话号码。Employee id是主键。
+	cqlsh> USE tutorialspoint;
+	cqlsh:tutorialspoint>; CREATE TABLE emp(
+	   emp_id int PRIMARY KEY,
+	   emp_name text,
+	   emp_city text,
+	   emp_sal varint,
+	   emp_phone varint
+	   );
