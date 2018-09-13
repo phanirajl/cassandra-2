@@ -1,0 +1,60 @@
+CQL提供了使用Collection数据类型的功能。使用这些集合类型，您可以在单个变量中存储多个值。本章介绍如何在Cassandra中使用Collections。
+List
+	List用于以下的情况下
+	将保持元素的顺序，并且
+	值将被多次存储。
+	您可以使用列表中元素的索引来获取列表数据类型的值。
+
+	使用List创建表
+	下面给出了一个创建一个包含两个列（名称和电子邮件）的样本表的示例。要存储多个电子邮件，我们使用列表。
+	cqlsh:tutorialspoint> CREATE TABLE data(name text PRIMARY KEY, email list<text>);
+
+将数据插入列表
+	在将数据插入列表中的元素时，在如下所示的方括号[]中输入以逗号分隔的所有值。
+	cqlsh:tutorialspoint> INSERT INTO data(name, email) VALUES ('ramu', ['abc@gmail.com','cba@yahoo.com']);
+
+更新列表
+	下面给出了一个在名为data的表中更新列表数据类型的示例。在这里，我们正在向列表中添加另一封电子邮件。
+	cqlsh:tutorialspoint> UPDATE data SET email = email +['xyz@tutorialspoint.com'] where name = 'ramu';
+
+验证
+	如果使用SELECT语句验证表，您将得到以下结果：
+	cqlsh:tutorialspoint> SELECT * FROM data;
+
+Set
+	Set是用于存储一组元素的数据类型。集合的元素将按排序顺序返回。
+
+使用Set创建表
+	以下示例创建一个包含两个列（名称和电话）的样本表。对于存储多个电话号码，我们使用集合。
+	cqlsh:tutorialspoint> CREATE TABLE data2 (name text PRIMARY KEY, phone set<varint>);
+
+将数据插入集合
+	在将数据插入集合中的元素时，请在花括号{}中输入逗号分隔的所有值，如下所示。
+	cqlsh:tutorialspoint> INSERT INTO data2(name, phone)VALUES ('rahman', {9848022338,9848022339});
+
+更新集合
+	以下代码显示如何更新名为data2的表中的集合。在这里，我们正在添加另一个电话号码。
+	cqlsh:tutorialspoint> UPDATE data2 SET phone = phone + {9848022330} where name = 'rahman';
+
+验证
+	如果使用SELECT语句验证表，您将得到以下结果：
+	cqlsh:tutorialspoint> SELECT * FROM data2;
+
+Map
+	地图是用于存储元素的键值对的数据类型。
+
+使用Map创建表
+	以下示例显示如何创建具有两个列（名称和地址）的样本表。为了存储多个地址值，我们使用map。
+	cqlsh:tutorialspoint> CREATE TABLE data3 (name text PRIMARY KEY, address map<text, text>);
+
+将数据插入到地图中
+	在将数据插入到地图中的元素时，输入所有的键：值对，用逗号在逗号之间以逗号分隔，如下所示。
+	cqlsh:tutorialspoint> INSERT INTO data3 (name, address) VALUES ('robin', {'home' : 'hyderabad' , 'office' : 'Delhi' } );
+
+更新集合
+	以下代码显示如何在名为data3的表中更新地图数据类型。在这里，我们改变了关键办公室的价值，也就是说，我们改变一个名为robin的人的办公地址。
+	cqlsh:tutorialspoint> UPDATE data3 SET address = address+{'office':'mumbai'} WHERE name = 'robin';
+
+验证
+	如果使用SELECT语句验证表，您将得到以下结果：
+	cqlsh:tutorialspoint> select * from data3;
