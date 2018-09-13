@@ -1,0 +1,6 @@
+使用Cqlsh创建数据
+	可以使用命令INSERT将数据插入到表中行的列中。下面给出了在表中创建数据的语法。
+	INSERT INTO <tablename>
+	(<column1 name>, <column2 name>....)
+	VALUES (<value1>, <value2>....)
+	USING <option>

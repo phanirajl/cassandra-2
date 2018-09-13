@@ -1,0 +1,11 @@
+使用Cqlsh更新数据
+	UPDATE是用于更新表中的数据的命令。在更新表中的数据时使用以下关键字：
+	Where - 此子句用于选择要更新的行。
+	Set - 使用此关键字设置值。
+	Must - 包括组成主键的所有列。
+
+	在更新行时，如果给定行不可用，则UPDATE创建一个新行。下面给出了UPDATE命令的语法：
+	UPDATE <tablename>
+	SET <column name> = <new value>
+	<column name> = <value>....
+	WHERE <condition>

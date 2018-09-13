@@ -1,0 +1,19 @@
+使用选择子句读取数据
+	SELECT子句用于从Cassandra中的表读取数据。使用此子句，您可以读取整个表，单个列或特定单元格。下面给出了SELECT子句的语法。
+	SELECT FROM <tablename>
+
+	以下示例显示如何使用SELECT子句读取整个表。这里我们读一个表emp。
+	cqlsh:tutorialspoint> select * from emp;
+
+读取必需的列
+	以下示例显示如何读取表中的特定列。
+	cqlsh:tutorialspoint> SELECT emp_name, emp_sal from emp;
+
+Where子句
+	使用WHERE子句，可以对必需的列设置约束。其语法如下：
+	SELECT FROM <table name> WHERE <condition>;
+	注意：WHERE子句只能用于作为主键的一部分或在其上具有辅助索引的列。
+
+	在以下示例中，我们正在读取薪水为50000的员工的详细信息。首先，将辅助索引设置为列emp_sal。
+	cqlsh:tutorialspoint> CREATE INDEX ON emp(emp_sal);
+	cqlsh:tutorialspoint> SELECT * FROM emp WHERE emp_sal=50000;
