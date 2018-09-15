@@ -1,0 +1,7 @@
+创建视图：
+	create MATERIALIZED VIEW user_view as select emp_id, emp_name from emp where emp_id = 1 and emp_name is not null
+	PRIMARY KEY (emp_id, emp_name) with comment = 'user view';
+	注意：PRIMARY KEY不要只包含表的主键，至少还需要包含其他列做主键。主键列要有is not null。视图是实验性的，不建议在生产环境使用。
+
+https://blog.csdn.net/stevensxiao/article/details/51865404
+https://blog.csdn.net/vbirdbest/article/details/77802031
